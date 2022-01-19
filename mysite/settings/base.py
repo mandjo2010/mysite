@@ -32,9 +32,10 @@ INSTALLED_APPS = [
     'blog',
 
     'wagtail.contrib.forms',
+    'wagtail.contrib.modeladmin',
     'wagtail.contrib.redirects',
     'wagtail.contrib.settings',
-    'wagtail.contrib.modeladmin',
+    'wagtail.contrib.routable_page',
     'wagtail.embeds',
     'wagtail.sites',
     'wagtail.users',
