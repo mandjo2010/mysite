@@ -6,6 +6,8 @@ from wagtail.core.fields import StreamField
 from wagtail.core.models import Page
 from wagtail.core import blocks as streamfield_blocks
 
+from streams import blocks
+
 
 class FlexPage(Page):
     """Flexible page class."""
@@ -16,9 +18,15 @@ class FlexPage(Page):
     #     'flex.FlexPage',
     #     'home.HomePage',
     # ]
-    # content = StreamField(
+    content = StreamField(
+        [
+            ("title_and_text", blocks.TitleAndTextBlock())
+        ],
+        null=True,
+        blank=True
+    )
     #     [
-    #         ("title_and_text", blocks.TitleAndTextBlock()),
+
     #         ("full_richtext", blocks.RichtextBlock()),
     #         ("simple_richtext", blocks.SimpleRichtextBlock()),
     #         ("cards", blocks.CardBlock()),
@@ -40,6 +48,7 @@ class FlexPage(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel("subtitle"),
+        StreamFieldPanel("content"),
 
     ]
 
