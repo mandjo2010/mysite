@@ -23,13 +23,13 @@ class FlexPage(Page):
             ("title_and_text", blocks.TitleAndTextBlock()),
             ("full_richtext", blocks.RichtextBlock()),
             ("simple_richtext", blocks.SimpleRichtextBlock()),
+            ("cards", blocks.CardBlock()),
         ],
         null=True,
         blank=True
     )
     #     [
 
-    #         ("cards", blocks.CardBlock()),
     #         ("cta", blocks.CTABlock()),
     #         ("button", blocks.ButtonBlock()),
     #         ("char_block", streamfield_blocks.CharBlock(
@@ -39,10 +39,6 @@ class FlexPage(Page):
     #             max_length=50,
     #             template="streams/char_block.html",
     #         ))
-    #     ],
-    #     null=True,
-    #     blank=True,
-    # )
 
     subtitle = models.CharField(max_length=100, null=True, blank=True)
 
