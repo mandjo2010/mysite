@@ -24,13 +24,13 @@ class FlexPage(Page):
             ("full_richtext", blocks.RichtextBlock()),
             ("simple_richtext", blocks.SimpleRichtextBlock()),
             ("cards", blocks.CardBlock()),
+            ("cta", blocks.CTABlock()),
         ],
         null=True,
         blank=True
     )
     #     [
 
-    #         ("cta", blocks.CTABlock()),
     #         ("button", blocks.ButtonBlock()),
     #         ("char_block", streamfield_blocks.CharBlock(
     #             required=True,
