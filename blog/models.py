@@ -9,8 +9,6 @@ from wagtail.admin.edit_handlers import (
     StreamFieldPanel,
     MultiFieldPanel,
     InlinePanel,
-
-
 )
 from wagtail.snippets.edit_handlers import SnippetChooserPanel
 from wagtail.core.fields import StreamField
@@ -18,6 +16,7 @@ from wagtail.core.models import Page, Orderable
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
+
 from streams import blocks
 
 
@@ -33,34 +32,6 @@ class BlogAuthorsOrderable(Orderable):
     panels = [
         SnippetChooserPanel("author"),
     ]
-
-    @property
-    def author_name(self):
-        return self.author.name
-
-    @property
-    def author_website(self):
-        return self.author.website
-
-    @property
-    def author_image(self):
-        return self.author.image
-
-    # api_fields = [
-    #     APIField("author_name"),
-    #     APIField("author_website"),
-    #     # This is using a custom django rest framework serializer
-    #     APIField("author_image", serializer=ImageSerializedField()),
-    #     # The below APIField is using a Wagtail-built DRF Serializer that supports
-    #     # custom image rendition sizes
-    #     APIField(
-    #         "image",
-    #         serializer=ImageRenditionField(
-    #             'fill-200x250',
-    #             source="author_image"
-    #         )
-    #     ),
-    # ]
 
 
 class BlogAuthor(models.Model):
@@ -152,10 +123,10 @@ class BlogListingPage(RoutablePageMixin, Page):
         """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
         context["posts"] = BlogDetailPage.objects.live().public()
-        context["authors"] = BlogAuthor.objects.all()
+        context["categories"] = BlogCategory.objects.all()
         return context
 
-    @route(r'^latest/?$', name="latest_posts")
+    @route(r'^latest/$', name="latest_posts")
     def latest_blog_posts_only_shows_last_5(self, request, *args, **kwargs):
         context = self.get_context(request, *args, **kwargs)
         context["posts"] = context["posts"][:1]
@@ -191,6 +162,7 @@ class BlogDetailPage(Page):
         related_name="+",
         on_delete=models.SET_NULL,
     )
+
     categories = ParentalManyToManyField("blog.BlogCategory", blank=True)
 
     content = StreamField(
@@ -208,7 +180,6 @@ class BlogDetailPage(Page):
     content_panels = Page.content_panels + [
         FieldPanel("custom_title"),
         ImageChooserPanel("blog_image"),
-        StreamFieldPanel("content"),
         MultiFieldPanel(
             [
                 InlinePanel("blog_authors", label="Author", min_num=1, max_num=4)
@@ -222,6 +193,4 @@ class BlogDetailPage(Page):
             heading="Categories"
         ),
         StreamFieldPanel("content"),
-
     ]
-
