@@ -125,7 +125,7 @@ class BlogListingPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
         all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-        # Paginate all posts by 2 per page, can be change to 5 per page
+        # Paginate all posts by 2 per page, can be change to 5 or more per page
         paginator = Paginator(all_posts, 2)
         # Try to get the ?page=x value
         page = request.GET.get("page")

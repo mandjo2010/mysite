@@ -1,4 +1,7 @@
-{% load static wagtailuserbar %}
+{% load static wagtailuserbar menus_tags %}
+
+{% get_menu "main" as navigation %}
+
 
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -10,7 +13,7 @@
             {% endblock %}
             {% block title_suffix %}
                 {% with self.get_site.site_name as site_name %}
-                    {% if site_name %}-{{ site_name }}{% endif %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
                 {% endwith %}
             {% endblock %}
         </title>
@@ -41,12 +44,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/blog/">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about/">About</a>
-                    </li>
+
+                    {% for item in navigation.menu_items.all %}
+                        <li>
+                            <a href="{{ item.link }}" class="nav-link"{% if item.open_in_new_tab %} target="_blank"{% endif %}>{{ item.title }}</a>
+                        </li>
+                    {% endfor %}
                 </ul>
             <!--
               <form class="form-inline my-2 my-lg-0">
@@ -55,7 +58,6 @@
               </form>
               -->
             </div>
-
           </nav>
 
 
@@ -67,11 +69,6 @@
                     {% if settings.site_settings.SocialMediaSettings.facebook %}
                         <a href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
                             <i class="fab fa-facebook-f"></i>
-                        </a>
-                    {% endif %}
-                      {% if settings.site_settings.SocialMediaSettings.instagram %}
-                        <a href="{{ settings.site_settings.SocialMediaSettings.instagram }}">
-                            <i class="fab fa-instagram"></i>
                         </a>
                     {% endif %}
                     {% if settings.site_settings.SocialMediaSettings.twitter %}
