@@ -31,9 +31,10 @@ class BlogListingPage(RoutablePageMixin, Page):
         """Adding custom stuff to our context."""
         context = super().get_context(request, *args, **kwargs)
         context["posts"] = BlogDetailPage.objects.live().public()
+        context["a_special_link"] = self.reverse_subpage('latest_posts')
         return context
 
-    @route(r'^latest/$', name="latest_posts")
+    @route(r'^latest/?$', name="latest_posts")
     def latest_blog_posts_only_shows_last_5(self, request, *args, **kwargs):
         context = self.get_context(request, *args, **kwargs)
         context["posts"] = context["posts"][:1]
