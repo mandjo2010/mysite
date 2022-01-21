@@ -57,6 +57,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+
+
+
+
 ]
 
 MIDDLEWARE = [
@@ -68,7 +72,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
 ]
 
