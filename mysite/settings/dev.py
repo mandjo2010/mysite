@@ -25,7 +25,16 @@ INTERNAL_IPS = [
 ]
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/Users/UserPC/Desktop/LEARNING/PYTHON/WAGTAIL/Website/cache"
+    },
+}
+
 try:
     from .local import *
 except ImportError:
     pass
+
+
