@@ -12,6 +12,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = INSTALLED_APPS + [
     'debug_toolbar',
     'django_extensions',
+    'wagtail.contrib.styleguide',
 
 ]
 
