@@ -6,6 +6,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField, StreamField
 
+
 from wagtail.api import APIField
 
 from wagtail.admin.edit_handlers import (

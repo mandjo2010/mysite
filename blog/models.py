@@ -6,6 +6,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.shortcuts import render
 
+from rest_framework.fields import Field
 from wagtail.api import APIField
 
 from modelcluster.fields import ParentalKey, ParentalManyToManyField
@@ -23,6 +24,19 @@ from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
 
 from streams import blocks
+
+
+class ImageSerializedField(Field):
+    """A custom serializer used in Wagtails v2 API."""
+
+    def to_representation(self, value):
+        """Return the image URL, title and dimensions."""
+        return {
+            "url": value.file.url,
+            "title": value.title,
+            "width": value.width,
+            "height": value.height,
+        }
 
 
 class BlogAuthorsOrderable(Orderable):
@@ -46,9 +60,14 @@ class BlogAuthorsOrderable(Orderable):
     def author_website(self):
         return self.author.website
 
+    @property
+    def author_image(self):
+        return self.author.image
+
     api_fields = [
         APIField("author_name"),
         APIField("author_website"),
+        APIField("author_image", serializer=ImageSerializedField()),
     ]
 
 
