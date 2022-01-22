@@ -48,6 +48,14 @@ class HomePage(RoutablePageMixin, Page):
     # Home page models
     templates = "templates/home/home_page.html"
     max_count = 1
+    subpage_types = [
+        'blog.BlogListingPage',
+        'contact.ContactPage',
+        'flex.FlexPage',
+    ]
+    parent_page_type = [
+        'wagtailcore.Page'
+    ]
     banner_title = models.CharField(max_length=100, blank=False, null=True)
     banner_subtitle = RichTextField(features=["bold", "italic"])
     banner_image = models.ForeignKey(
