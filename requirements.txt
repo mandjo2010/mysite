@@ -1,0 +1,11 @@
+Django==3.0.14
+wagtail==2.15.2
+django-debug-toolbar==3.2.4
+ipython==8.0.1
+django-extensions==3.1.5
+black==21.12b0
+flake8
+isort
+wagtail-django-recaptcha==1.0
+django-allauth==0.47.0
+wagtail-django-recaptcha ==1.0
