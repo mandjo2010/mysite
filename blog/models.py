@@ -1,5 +1,7 @@
 """Blog listing and blog detail pages."""
 from django import forms
+from django.core.cache import cache
+from django.core.cache.utils import make_template_fragment_key
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import models
 from django.shortcuts import render
@@ -125,7 +127,7 @@ class BlogListingPage(RoutablePageMixin, Page):
         context = super().get_context(request, *args, **kwargs)
         # Get all posts
         all_posts = BlogDetailPage.objects.live().public().order_by('-first_published_at')
-        # Paginate all posts by 2 per page, can be change to 5 or more per page
+        # Paginate all posts by 2 per page
         paginator = Paginator(all_posts, 2)
         # Try to get the ?page=x value
         page = request.GET.get("page")
@@ -214,6 +216,17 @@ class BlogDetailPage(Page):
         ),
         StreamFieldPanel("content"),
     ]
+
+    def save(self, *args, **kwargs):
+        """Create a template fragment key.
+
+        Then delete the key."""
+        key = make_template_fragment_key(
+            "blog_post_preview",
+            [self.id]
+        )
+        cache.delete(key)
+        return super().save(*args, **kwargs)
 
 
 # First subclassed blog post page
