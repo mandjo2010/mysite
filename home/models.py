@@ -5,6 +5,9 @@ from modelcluster.fields import ParentalKey
 
 from wagtail.core.models import Page, Orderable
 from wagtail.core.fields import RichTextField, StreamField
+
+from wagtail.api import APIField
+
 from wagtail.admin.edit_handlers import (
     FieldPanel,
     MultiFieldPanel,
@@ -64,6 +67,13 @@ class HomePage(RoutablePageMixin, Page):
         null=True,
         blank=True
     )
+
+    api_fields = [
+        APIField("banner_title"),
+        APIField("banner_subtitle"),
+        APIField("banner_image"),
+        APIField("banner_cta"),
+    ]
 
     content_panels = Page.content_panels + [
         MultiFieldPanel([
