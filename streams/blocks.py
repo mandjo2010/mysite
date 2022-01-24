@@ -118,3 +118,5 @@ class ButtonBlock(blocks.StructBlock):
         icon = "placeholder"
         label = "Single Button"
         value_class = LinkStructValue
+
+
