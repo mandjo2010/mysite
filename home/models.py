@@ -91,18 +91,37 @@ class HomePage(RoutablePageMixin, Page):
     ]
 
     content_panels = Page.content_panels + [
-        MultiFieldPanel([
-            FieldPanel("banner_title"),
-            FieldPanel("banner_subtitle"),
-            ImageChooserPanel("banner_image"),
-            PageChooserPanel("banner_cta"),
-        ], heading="Banner Options"),
-        MultiFieldPanel([
-            InlinePanel("carousel_images", max_num=5, min_num=1),
-        ], heading="Carousel Images"),
+        MultiFieldPanel(
+            [InlinePanel("carousel_images", max_num=5, min_num=1, label="Image")],
+            heading="Carousel Images",
+        ),
         StreamFieldPanel("content"),
-
     ]
+
+    # This is how you'd normally hide promote and settings tabs
+    # promote_panels = []
+    # settings_panels = []
+
+    banner_panels = [
+        MultiFieldPanel(
+            [
+                FieldPanel("banner_title"),
+                FieldPanel("banner_subtitle"),
+                ImageChooserPanel("banner_image"),
+                PageChooserPanel("banner_cta"),
+            ],
+            heading="Banner Options",
+        ),
+    ]
+
+    edit_handler = TabbedInterface(
+        [
+            ObjectList(content_panels, heading='Content'),
+            ObjectList(banner_panels, heading="Banner Settings"),
+            ObjectList(Page.promote_panels, heading='Promotional Stuff'),
+            ObjectList(Page.settings_panels, heading='Settings Stuff'),
+        ]
+    )
 
     class Meta:
         verbose_name = "Home Page"
@@ -115,3 +134,17 @@ class HomePage(RoutablePageMixin, Page):
 
     def get_admin_display_title(self):
         return "Custom Home Page Title"
+
+# Wagtail CMS: How to customize default Wagtail Page property values
+
+# # This will change the "title" field 's verbose name to "Custom Name".
+# # But you'd still reference it in the template as `page.title`
+# HomePage._meta.get_field("title").verbose_name = "Custom Name"
+# # Here we are removing the help text. But to change it, simply change None to a string.
+# HomePage._meta.get_field("title").help_text = None
+# # Below is the new default title for a Home Page.
+# # This only appears when you create a new page.
+# HomePage._meta.get_field("title").default = "Default HomePage Title"
+# # Lastly, we're adding a default `slug` value to the page.
+# # This does not need to reflect the same (or similar) value that the `title` field has.
+# HomePage._meta.get_field("slug").default = "default-homepage-title"
